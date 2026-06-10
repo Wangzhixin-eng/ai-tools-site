@@ -2,8 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'export',
+  basePath: '/ai-tools-site', // GitHub Pages 子目录
   images: {
-    unoptimized: true, // 静态导出需要禁用图片优化
+    unoptimized: true,
   },
 };
 

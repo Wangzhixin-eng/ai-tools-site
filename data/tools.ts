@@ -958,13 +958,6 @@ export const aiTools: AITool[] = [
 
 export const categories = [
   { 
-    id: 'all', 
-    name: 'All Tools', 
-    nameCn: '全部工具',
-    icon: '🎯',
-    color: 'bg-gradient-to-r from-purple-500 to-pink-500'
-  },
-  { 
     id: 'chatbot', 
     name: 'AI Chatbots', 
     nameCn: 'AI聊天',

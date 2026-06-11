@@ -17,8 +17,6 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
-const BASE_PATH = '/ai-tools-site';
-
 const categoryNames: Record<string, string> = {
   chatbot: 'AI 对话',
   image: 'AI 图像',
@@ -50,7 +48,7 @@ async function ToolDetailContent({ params }: { params: Promise<{ id: string }> }
           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
             <Link href="/" className="hover:text-purple-600">首页</Link>
             <span>/</span>
-            <Link href={`${BASE_PATH}/categories/${tool.category}`} className="hover:text-purple-600">
+            <Link href={`/categories/${tool.category}`} className="hover:text-purple-600">
               {categoryNames[tool.category] || tool.category}
             </Link>
             <span>/</span>
@@ -156,7 +154,7 @@ async function ToolDetailContent({ params }: { params: Promise<{ id: string }> }
               {relatedTools.map(t => (
                 <Link
                   key={t.id}
-                  href={`${BASE_PATH}/tools/${t.id}`}
+                  href={`/tools/${t.id}`}
                   className="block p-4 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-700 hover:shadow-md transition"
                 >
                   <div className="font-medium text-gray-900 dark:text-white">{t.name}</div>
@@ -175,7 +173,7 @@ async function ToolDetailContent({ params }: { params: Promise<{ id: string }> }
   );
 }
 
-export default async function ToolDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function ToolDetailPage({ params }: { params: Promise<{ id: string }> }) {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-gray-500">Loading...</div></div>}>
       <ToolDetailContent params={params} />

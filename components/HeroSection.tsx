@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { aiTools } from '@/data/tools';
-import { searchTools } from '@/data/tools';
+import { aiTools, searchTools } from '@/data/tools';
 import Link from 'next/link';
 
 export default function HeroSection() {
@@ -62,7 +61,7 @@ export default function HeroSection() {
               {results.slice(0, 8).map((tool) => (
                 <Link
                   key={tool.id}
-                  href={`/ai-tools-site/tools/${tool.id}`}
+                  href={`/tools/${tool.id}`}
                   className="flex items-center gap-4 px-5 py-3 hover:bg-purple-50 transition border-b border-gray-100 last:border-0"
                   onClick={() => { setQuery(''); setResults([]); }}
                 >

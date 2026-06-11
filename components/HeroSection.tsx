@@ -60,12 +60,11 @@ export default function HeroSection() {
           {results.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto">
               {results.slice(0, 8).map((tool) => (
-                <a
+                <Link
                   key={tool.id}
-                  href={tool.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/ai-tools-site/tools/${tool.id}`}
                   className="flex items-center gap-4 px-5 py-3 hover:bg-purple-50 transition border-b border-gray-100 last:border-0"
+                  onClick={() => { setQuery(''); setResults([]); }}
                 >
                   <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-xl shrink-0">
                     {getCategoryEmoji(tool.category)}
@@ -81,7 +80,7 @@ export default function HeroSection() {
                   }`}>
                     {tool.pricing === 'free' ? '免费' : tool.pricing === 'freemium' ? ' freemium' : '付费'}
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
           )}

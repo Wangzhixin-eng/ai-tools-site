@@ -8,6 +8,7 @@ import CategoryCard from '@/components/CategoryCard';
 import HeroSection from '@/components/HeroSection';
 
 const TOOLS_PER_PAGE = 12;
+const BASE_PATH = '/ai-tools-site'; // GitHub Pages base path
 
 export default function Home() {
   const featuredTools = getFeaturedTools();
@@ -96,7 +97,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredTools.slice(0, 6).map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
+            <ToolCard key={tool.id} tool={tool} basePath={BASE_PATH} />
           ))}
         </div>
       </section>
@@ -114,7 +115,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {aiTools.slice(0, visibleCount).map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
+            <ToolCard key={tool.id} tool={tool} basePath={BASE_PATH} />
           ))}
         </div>
         {visibleCount < aiTools.length && (

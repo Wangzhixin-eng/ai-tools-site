@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { aiTools } from '../../data/tools';
 import ToolCard from '../../components/ToolCard';
 
+const BASE_PATH = '/ai-tools-site';
+
 export default function FeaturedPage() {
   const featuredTools = aiTools.filter(t => t.featured);
 
@@ -38,7 +40,7 @@ export default function FeaturedPage() {
       <div className="max-w-7xl mx-auto px-4 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredTools.map(tool => (
-            <ToolCard key={tool.id} tool={tool} />
+            <ToolCard key={tool.id} tool={tool} basePath={BASE_PATH} />
           ))}
         </div>
       </div>

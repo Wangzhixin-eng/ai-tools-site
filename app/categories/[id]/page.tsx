@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { aiTools } from '../../../data/tools';
 import ToolCard from '../../../components/ToolCard';
 
+const BASE_PATH = '/ai-tools-site';
+
 const categoryInfo: Record<string, { name: string; nameCn: string; emoji: string; desc: string; descCn: string }> = {
   chatbot: { name: 'Chat & AI', nameCn: '聊天AI', emoji: '💬', desc: 'Conversational AI and chatbots', descCn: '对话AI与聊天机器人' },
   image: { name: 'Image Generation', nameCn: '图像生成', emoji: '🎨', desc: 'AI image generation and editing', descCn: 'AI图像生成与编辑' },
@@ -86,7 +88,7 @@ export default async function CategoryPage({ params }: PageProps) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tools.map(tool => (
-              <ToolCard key={tool.id} tool={tool} />
+              <ToolCard key={tool.id} tool={tool} basePath={BASE_PATH} />
             ))}
           </div>
         )}

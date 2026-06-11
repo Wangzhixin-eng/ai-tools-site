@@ -15,6 +15,8 @@ export function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
+const BASE_PATH = '/ai-tools-site';
+
 const categoryNames: Record<string, string> = {
   chatbot: 'AI 对话',
   image: 'AI 图像',
@@ -45,7 +47,7 @@ export default function ToolDetailPage({ params }: { params: { id: string } }) {
           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
             <Link href="/" className="hover:text-purple-600">首页</Link>
             <span>/</span>
-            <Link href={`/categories/${tool.category}`} className="hover:text-purple-600">
+            <Link href={`${BASE_PATH}/categories/${tool.category}`} className="hover:text-purple-600">
               {categoryNames[tool.category] || tool.category}
             </Link>
             <span>/</span>
@@ -151,7 +153,7 @@ export default function ToolDetailPage({ params }: { params: { id: string } }) {
               {relatedTools.map(t => (
                 <Link
                   key={t.id}
-                  href={`/tools/${t.id}`}
+                  href={`${BASE_PATH}/tools/${t.id}`}
                   className="block p-4 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-700 hover:shadow-md transition"
                 >
                   <div className="font-medium text-gray-900 dark:text-white">{t.name}</div>

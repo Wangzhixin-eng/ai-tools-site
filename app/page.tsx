@@ -1,11 +1,17 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { aiTools, categories, getFeaturedTools } from '@/data/tools';
 import ToolCard from '@/components/ToolCard';
 import CategoryCard from '@/components/CategoryCard';
 import HeroSection from '@/components/HeroSection';
 
+const TOOLS_PER_PAGE = 12;
+
 export default function Home() {
   const featuredTools = getFeaturedTools();
+  const [visibleCount, setVisibleCount] = useState(TOOLS_PER_PAGE);
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -44,7 +50,7 @@ export default function Home() {
               <div className="text-sm text-gray-500 dark:text-gray-400">AI Tools · AI工具</div>
             </div>
             <div>
-              <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">9</div>
+              <div className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400">8</div>
               <div className="text-sm text-gray-500 dark:text-gray-400">Categories · 分类</div>
             </div>
             <div>
@@ -95,19 +101,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* All Tools */}
+      {/* All Tools — 分页加载 */}
       <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">🔥 All AI Tools</h2>
             <p className="text-gray-500 dark:text-gray-400 mt-1">全部AI工具 · 共{aiTools.length}个</p>
           </div>
+          <Link href="/categories" className="text-purple-600 dark:text-purple-400 text-sm font-medium hover:underline">
+            按分类浏览 →
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {aiTools.map((tool) => (
+          {aiTools.slice(0, visibleCount).map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
           ))}
         </div>
+        {visibleCount < aiTools.length && (
+          <div className="text-center mt-8">
+            <button
+              onClick={() => setVisibleCount(prev => prev + TOOLS_PER_PAGE)}
+              className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition"
+            >
+              加载更多 · Load More ({aiTools.length - visibleCount} remaining)
+            </button>
+          </div>
+        )}
       </section>
 
       {/* CTA */}
@@ -118,7 +137,7 @@ export default function Home() {
           </h2>
           <p className="text-purple-100 mb-8 text-lg">
             Help us build the most comprehensive AI tools database!<br />
-            帮助我们建设最全面的AI工具数据库！
+            帮助我们建设最全面的AI工具导航站！
           </p>
         </div>
       </section>

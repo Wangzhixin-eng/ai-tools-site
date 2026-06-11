@@ -1,13 +1,15 @@
 import { aiTools, categories, getToolsByCategory } from '@/data/tools';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export function generateStaticParams() {
   return aiTools.map((tool) => ({ id: tool.id }));
 }
 
-export function generateMetadata({ params }: { params: { id: string } }) {
-  const tool = aiTools.find(t => t.id === params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const tool = aiTools.find(t => t.id === id);
   if (!tool) return { title: 'Tool Not Found' };
   return {
     title: `${tool.name} - ${tool.nameCn} | AIHub`,
@@ -28,9 +30,10 @@ const categoryNames: Record<string, string> = {
   writing: 'AI 写作',
 };
 
-export default function ToolDetailPage({ params }: { params: { id: string } }) {
-  const tool = aiTools.find(t => t.id === params.id);
-
+async function ToolDetailContent({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const tool = aiTools.find(t => t.id === id);
+  
   if (!tool) {
     notFound();
   }
@@ -169,5 +172,13 @@ export default function ToolDetailPage({ params }: { params: { id: string } }) {
         )}
       </main>
     </div>
+  );
+}
+
+export default async function ToolDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-gray-500">Loading...</div></div>}>
+      <ToolDetailContent params={params} />
+    </Suspense>
   );
 }

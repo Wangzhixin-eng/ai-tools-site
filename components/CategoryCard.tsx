@@ -1,9 +1,15 @@
+'use client';
+
 import Link from 'next/link';
+import { useLanguage } from '@/app/context/LanguageContext';
+import { AITool } from '@/data/tools';
 
 interface Category {
   id: string;
   name: string;
   nameCn: string;
+  nameJp: string;
+  nameKr: string;
   icon: string;
   color: string;
 }
@@ -13,12 +19,14 @@ interface CategoryCardProps {
 }
 
 export default function CategoryCard({ category }: CategoryCardProps) {
+  const { t } = useLanguage();
+  const displayName = t({ en: category.name, cn: category.nameCn, jp: category.nameJp, kr: category.nameKr });
+
   return (
     <Link href={`/categories/${category.id}`}>
       <div className={`${category.color} rounded-2xl p-4 text-white hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer h-full flex flex-col items-center justify-center text-center gap-2`}>
         <div className="text-3xl">{category.icon}</div>
-        <div className="font-bold text-sm">{category.nameCn}</div>
-        <div className="text-xs opacity-80">{category.name}</div>
+        <div className="font-bold text-sm">{displayName}</div>
       </div>
     </Link>
   );

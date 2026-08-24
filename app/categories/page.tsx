@@ -1,37 +1,32 @@
 import Link from 'next/link';
-import { aiTools } from '../../data/tools';
+import { aiTools, categories } from '../../data/tools';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
+import { useLanguage } from '../../app/context/LanguageContext';
 
-const categories = [
-  { id: 'chatbot', name: '💬 Chat & AI', nameCn: '聊天AI', emoji: '💬' },
-  { id: 'image', name: '🎨 Image Generation', nameCn: '图像生成', emoji: '🎨' },
-  { id: 'video', name: '🎬 Video & Animation', nameCn: '视频动画', emoji: '🎬' },
-  { id: 'audio', name: '🎵 Audio & Music', nameCn: '音频音乐', emoji: '🎵' },
-  { id: 'code', name: '💻 Code & Dev', nameCn: '编程开发', emoji: '💻' },
-  { id: 'productivity', name: '⚡ Productivity', nameCn: '效率工具', emoji: '⚡' },
-  { id: 'design', name: '🎯 Design & UI', nameCn: '设计UI', emoji: '🎯' },
-  { id: 'writing', name: '✍️ Writing & Text', nameCn: '写作文本', emoji: '✍️' },
-];
+const BASE_PATH = '/ai-tools-site';
 
 export default function CategoriesPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-purple-900">
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-purple-600 dark:text-purple-400">AIHub</Link>
+          <Link href={BASE_PATH} className="text-2xl font-bold text-purple-600 dark:text-purple-400">AIHub</Link>
           <nav className="flex gap-6">
-            <Link href="/" className="text-purple-600 dark:text-purple-400 font-medium text-sm">Home · 首页</Link>
-            <Link href="/categories" className="text-gray-600 dark:text-gray-300 text-sm font-medium">Categories · 分类</Link>
-            <Link href="/featured" className="text-gray-600 dark:text-gray-300 text-sm">Featured · 精选</Link>
-            <Link href="/new" className="text-gray-600 dark:text-gray-300 text-sm">New · 最新</Link>
+            <Link href={BASE_PATH} className="text-gray-600 dark:text-gray-300 text-sm">{t({ en: 'Home', cn: '首页', jp: 'ホーム', kr: '홈' })}</Link>
+            <Link href={`${BASE_PATH}/categories`} className="text-purple-600 dark:text-purple-400 font-medium text-sm">{t({ en: 'Categories', cn: '分类', jp: 'カテゴリ', kr: '카테고리' })}</Link>
+            <Link href={`${BASE_PATH}/featured`} className="text-gray-600 dark:text-gray-300 text-sm">{t({ en: 'Featured', cn: '精选', jp: 'おすすめ', kr: '추천' })}</Link>
+            <Link href={`${BASE_PATH}/new`} className="text-gray-600 dark:text-gray-300 text-sm">{t({ en: 'New', cn: '最新', jp: '新着', kr: '신규' })}</Link>
           </nav>
         </div>
       </header>
 
       {/* Hero */}
       <div className="max-w-7xl mx-auto px-4 pt-16 pb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Browse by Category</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">按分类浏览所有AI工具</p>
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">{t({ en: 'Browse by Category', cn: '按分类浏览', jp: 'カテゴリで閲覧', kr: '카테고리로 탐색' })}</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">{t({ en: 'Explore all AI tools by category', cn: '按分类浏览所有AI工具', jp: 'カテゴリですべてのAIツールを閲覧', kr: '카테고리로 모든 AI 도구 탐색' })}</p>
       </div>
 
       {/* Category Grid */}
@@ -40,12 +35,13 @@ export default function CategoriesPage() {
           {categories.map((cat) => {
             const count = aiTools.filter(t => t.category === cat.id).length;
             return (
-              <Link key={cat.id} href={`/categories/${cat.id}`}>
+              <Link key={cat.id} href={`${BASE_PATH}/categories/${cat.id}`}>
                 <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer border border-gray-100 dark:border-gray-700">
-                  <div className="text-4xl mb-3">{cat.emoji}</div>
-                  <h3 className="font-bold text-gray-900 dark:text-white text-lg">{cat.name}</h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{cat.nameCn}</p>
-                  <p className="text-purple-600 dark:text-purple-400 text-sm mt-3 font-medium">{count} tools · {count}个工具</p>
+                  <div className={`w-14 h-14 ${cat.color} rounded-2xl flex items-center justify-center text-2xl mb-4`}>
+                    {cat.icon}
+                  </div>
+                  <h3 className="font-bold text-gray-900 dark:text-white text-lg">{t({ en: cat.name, cn: cat.nameCn, jp: cat.nameJp, kr: cat.nameKr })}</h3>
+                  <p className="text-purple-600 dark:text-purple-400 text-sm mt-3 font-medium">{count} {t({ en: 'tools', cn: '个工具', jp: 'ツール', kr: '개 도구' })}</p>
                 </div>
               </Link>
             );
@@ -53,9 +49,14 @@ export default function CategoriesPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-8 text-center">
-        <p className="text-sm">© 2026 AIHub · AI Tools Navigator · AI工具精选导航</p>
+      {/* Language Switcher + Footer */}
+      <footer className="bg-gray-900 text-gray-400 py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-center mb-6">
+            <LanguageSwitcher />
+          </div>
+          <p className="text-sm text-center">© 2026 AIHub · {t({ en: 'AI Tools Navigator', cn: 'AI工具导航站', jp: 'AIツールナビゲーター', kr: 'AI 도구 내비게이터' })}</p>
+        </div>
       </footer>
     </div>
   );

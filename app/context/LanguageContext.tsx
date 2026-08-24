@@ -1,5 +1,4 @@
 'use client';
-
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type Language = 'en' | 'cn' | 'jp' | 'kr';
@@ -7,13 +6,13 @@ export type Language = 'en' | 'cn' | 'jp' | 'kr';
 interface LanguageContextType {
   lang: Language;
   setLang: (lang: Language) => void;
-  t: (translations: Record<Language, string>) => string;
+  t: (translations: Partial<Record<Language, string>>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
   lang: 'cn',
   setLang: () => {},
-  t: (translations) => translations['cn'] || '',
+  t: (translations) => translations['cn'] || translations['en'] || Object.values(translations)[0] || '',
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -22,28 +21,24 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    try {
-      const saved = localStorage.getItem('aihub-lang') as Language;
-      if (saved && ['en', 'cn', 'jp', 'kr'].includes(saved)) {
-        setLangState(saved);
-      }
-    } catch {}
+    const saved = localStorage.getItem('aihub-lang') as Language | null;
+    if (saved && ['en', 'cn', 'jp', 'kr'].includes(saved)) {
+      setLangState(saved);
+    }
   }, []);
 
   const setLang = (l: Language) => {
     setLangState(l);
-    try {
-      localStorage.setItem('aihub-lang', l);
-    } catch {}
+    localStorage.setItem('aihub-lang', l);
   };
 
-  const t = (translations: Record<Language, string>) => {
-    return translations[lang] || translations['cn'] || '';
+  const t = (translations: Partial<Record<Language, string>>) => {
+    return translations[lang] || translations['cn'] || translations['en'] || Object.values(translations)[0] || '';
   };
 
   return (
     <LanguageContext.Provider value={{ lang, setLang, t }}>
-      {mounted ? children : <div style={{ visibility: 'hidden' }}>{children}</div>}
+      {children}
     </LanguageContext.Provider>
   );
 }

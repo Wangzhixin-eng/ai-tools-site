@@ -14,6 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* 🔍 搜索引擎验证标签 - 请将 YOUR_GOOGLE_VERIFICATION_CODE 替换为 Google Search Console 提供的验证码
+            例如: <meta name="google-site-verification" content="abc123xyz..." />
+        */}
+      </head>
       <body>
         <LanguageProvider>{children}</LanguageProvider>
       </body>

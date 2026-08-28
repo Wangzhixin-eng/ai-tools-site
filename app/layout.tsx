@@ -15,9 +15,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* 🔍 搜索引擎验证标签 - 请将 YOUR_GOOGLE_VERIFICATION_CODE 替换为 Google Search Console 提供的验证码
-            例如: <meta name="google-site-verification" content="abc123xyz..." />
+        {/* 🔍 搜索引擎验证标签
+            百度搜索资源平台: https://ziyuan.baidu.com/
+            请将下面的 YOUR_BAIDU_VERIFICATION_CODE 替换为百度搜索资源平台提供的验证码
+
+            360搜索站长平台: https://zhanzhang.so.com/
+            请将下面的 YOUR_360_VERIFICATION_CODE 替换为360搜索站长平台提供的验证码
         */}
+        {/* <meta name="baidu-site-verification" content="YOUR_BAIDU_VERIFICATION_CODE" /> */}
+        {/* <meta name="360-site-verification" content="YOUR_360_VERIFICATION_CODE" /> */}
       </head>
       <body>
         <LanguageProvider>{children}</LanguageProvider>
